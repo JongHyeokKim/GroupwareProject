@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 프로젝트 설정 xml -->
+<!-- << 개정이력(Modification Information) >> -->
+<!-- 수정일 수정자 수정내용 -->
+<!-- ======= ======= ===================== -->
+<!-- 2016.09.01. 정준호 최초생성 -->
+<!-- Copyright (c) 2016 by DDIT All right reserved -->
+<sqlMap namespace="project">
+
+	<typeAlias alias="projectVO" type="com.groupware.dto.ProjectVO" />
+	<typeAlias alias="employeeVO" type="com.groupware.dto.EmployeeProjectVO" />
+	<typeAlias alias="memberVO" type="com.groupware.dto.MemberVO" />
+	<typeAlias alias="opinionVO" type="com.groupware.dto.OpinionVO" />
+
+	<select id="getCalendarList" resultClass="projectVO">
+		SELECT * FROM PROJECT
+		ORDER BY PRO_END_DAY
+	</select>
+
+	<select id="getCalendar" parameterClass="string" resultClass="projectVO">
+		SELECT * FROM PROJECT WHERE PRO_CODE = #paramData#
+	</select>
+
+	<delete id="deleteCalendar" parameterClass="int">
+		DELETE FROM PROJECT
+		WHERE PRO_CODE = #id#
+	</delete>
+
+	<select id="findId" parameterClass="projectVO" resultClass="string">
+		SELECT PRO_CODE
+		FROM PROJECT
+		WHERE PRO_NM=#pro_nm# AND PRO_MM=#pro_mm#
+		AND PRO_BEG_DAY=#pro_beg_day# AND
+		PRO_END_DAY=#pro_end_day#
+	</select>
+
+	<select id="employeeFindId" parameterClass="employeeVO"
+		resultClass="string">
+		SELECT MEM_SCH_CODE
+		FROM MEMBER_SCHEDULE
+		WHERE
+		MEM_SCH_MEM_CODE=#mem_sch_mem_code#
+		AND MEM_SCH_MM=#mem_sch_mm#
+		AND
+		MEM_SCH_TT=#mem_sch_tt#
+		AND MEM_SCH_BEG_DAY=#mem_sch_beg_day#
+		AND
+		MEM_SCH_END_DAY = #mem_sch_end_day#
+	</select>
+
+	<update id="modifyCalendar" parameterClass="projectVO">
+		UPDATE PROJECT SET
+		PRO_NM = #pro_nm#,
+		PRO_MM = #pro_mm#,
+		PRO_BEG_DAY = #pro_beg_day#,
+		PRO_END_DAY = #pro_end_day#
+		WHERE PRO_CODE = #pro_code#
+	</update>
+	<update id="modifyCalendar2" parameterClass="string">
+		UPDATE (
+		SELECT
+		PRO.PRO_BEG_DAY, PRO.PRO_END_DAY, MEMSCH.MEM_SCH_BEG_DAY,
+		MEMSCH.MEM_SCH_END_DAY,
+		PRO.PRO_NM, PRO.PRO_MM, MEMSCH.MEM_SCH_TT,
+		MEMSCH.MEM_SCH_MM
+		FROM PROJECT PRO, MEMBER_SCHEDULE MEMSCH
+		WHERE
+		PRO.PRO_CODE = #pro_code#
+		AND PRO.PRO_CODE = MEMSCH.MEM_SCH_PRO_CODE)
+		SET MEM_SCH_BEG_DAY = PRO_BEG_DAY, MEM_SCH_END_DAY = PRO_END_DAY,
+		MEM_SCH_TT = PRO_NM, MEM_SCH_MM = PRO_MM
+	</update>
+
+	<insert id="insertCalendar" parameterClass="projectVO">
+		<selectKey keyProperty="cur_seq" resultClass="string">
+			SELECT
+			PRO_SEQ.NEXTVAL AS cur_seq FROM DUAL
+		</selectKey>
+		INSERT INTO
+		PROJECT(PRO_CODE,PRO_NM,PRO_MM,PRO_BEG_DAY,PRO_END_DAY)
+		VALUES(#cur_seq#,#pro_nm#,#pro_mm#,#pro_beg_day#,#pro_end_day#)
+	</insert>
+
+	<select id="employeeList" resultClass="employeeVO"
+		parameterClass="string">
+		SELECT * FROM
+		MEMBER_SCHEDULE WHERE MEM_SCH_MEM_CODE =
+		#num#
+	</select>
+
+	<insert id="employeeInserCalendar" parameterClass="employeeVO">
+		INSERT INTO
+		MEMBER_SCHEDULE(MEM_SCH_CODE, MEM_SCH_MEM_CODE, MEM_SCH_TT,MEM_SCH_MM,
+		MEM_SCH_BEG_DAY, MEM_SCH_END_DAY)
+		VALUES(MEM_SCH_SEQ.NEXTVAL,#mem_sch_mem_code#,#mem_sch_tt#,
+		#mem_sch_mm#, #mem_sch_beg_day#,#mem_sch_end_day#)
+	</insert>
+
+	<update id="employeeModifyCalendar" parameterClass="employeeVO">
+		UPDATE
+		MEMBER_SCHEDULE SET
+		MEM_SCH_MEM_CODE = #mem_sch_mem_code#,
+		MEM_SCH_TT =
+		#mem_sch_tt#,
+		MEM_SCH_MM = #mem_sch_mm#,
+		MEM_SCH_BEG_DAY =
+		#mem_sch_beg_day#,
+		MEM_SCH_END_DAY = #mem_sch_end_day#
+		WHERE
+		MEM_SCH_CODE = #mem_sch_code#
+	</update>
+
+	<delete id="employeeDeleteCalendar" parameterClass="int">
+		DELETE FROM
+		MEMBER_SCHEDULE
+		WHERE MEM_SCH_CODE = #id#
+	</delete>
+
+	<insert id="addProjectMember" parameterClass="employeeVO">
+		INSERT INTO
+		MEMBER_SCHEDULE(MEM_SCH_CODE, MEM_SCH_MEM_CODE,
+		MEM_SCH_TT,MEM_SCH_MM,MEM_SCH_BEG_DAY,MEM_SCH_END_DAY,
+		MEM_SCH_PRO_CODE)VALUES(MEM_SCH_SEQ.NEXTVAL, #mem_sch_mem_code#,
+		#mem_sch_tt#, #mem_sch_mm#, #mem_sch_beg_day#,
+		#mem_sch_end_day#,#mem_sch_pro_code#)
+	</insert>
+
+	<select id="getProjectMembers" parameterClass="string"
+		resultClass="memberVO">
+		SELECT MEM_NM, MEM_NUM FROM PROJECT, MEMBER_SCHEDULE,
+		MEMBER WHERE PROJECT.PRO_CODE =
+		MEMBER_SCHEDULE.MEM_SCH_PRO_CODE
+		AND
+		MEMBER.MEM_NUM = MEMBER_SCHEDULE.MEM_SCH_MEM_CODE AND
+		PROJECT.PRO_CODE
+		= #choice_pro_code#
+	</select>
+
+	<select id="getProjectMembers2" parameterClass="string"
+		resultClass="memberVO">
+		SELECT MEM_NM FROM MEMBER, MEMBER_SCHEDULE WHERE
+		MEM_SCH_PRO_CODE = #choice_pro_code# AND MEM_SCH_MEM_CODE = MEM_NUM
+	</select>
+
+	<update id="addProjectDetail" parameterClass="map">
+		UPDATE PROJECT SET
+		PRO_DT_MM = #pro_dt_mm# WHERE PRO_CODE = #pro_code#
+	</update>
+
+	<select id="searchProject" parameterClass="string" resultClass="projectVO">
+		SELECT * FROM PROJECT WHERE PRO_NM LIKE '%'||#pro_nm#||'%'
+	</select>
+	<insert id="insertOption" parameterClass="map">
+		INSERT INTO
+		OPINION(OP_CODE,OP_MEM_CODE,OP_PRO_CODE,OP_OPN)VALUES(OP_SEQ.NEXTVAL,#op_mem_code#,#op_pro_code#,#op_opn#)
+	</insert>
+	<select id="getOpinion" parameterClass="string" resultClass="opinionVO">
+		SELECT DEPARTMENT.DEP_NM, OPINION.OP_MEM_CODE, MEMBER.MEM_NM,
+		OPINION.OP_OPN,OP_CODE FROM OPINION,
+		MEMBER, DEPARTMENT
+		WHERE
+		OP_PRO_CODE = #op_pro_code# AND MEMBER.MEM_NUM
+		= OPINION.OP_MEM_CODE
+		AND MEMBER.MEM_DEP_CODE = DEPARTMENT.DEP_CODE
+		ORDER BY OP_CODE
+	</select>
+
+	<select id="totalRecord" parameterClass="string" resultClass="int">
+		SELECT COUNT(*) FROM PROJECT WHERE PRO_NM LIKE
+		'%'||#product_name#||'%'
+	</select>
+
+	<select id="listProject" parameterClass="str" resultClass="projectVO">
+		SELECT *
+		FROM PROJECT
+		WHERE PRO_NM LIKE '%'||#pro_nm#||'%'
+		ORDER BY PRO_BEG_DAY DESC
+	</select>
+
+	<select id="getMainProjectList" resultClass="projectVO">
+		<![CDATA[SELECT * FROM PROJECT
+			WHERE TO_DATE(PRO_BEG_DAY,'YYYY-MM-DD') <= SYSDATE
+			AND TO_DATE(PRO_END_DAY,'YYYY-MM-DD') >= SYSDATE
+			AND ROWNUM<=8
+			ORDER BY PRO_END_DAY]]>
+	</select>
+	<delete id="opinionDelete" parameterClass="string">
+		DELETE FROM OPINION WHERE OP_CODE = #op_code#
+	</delete>
+</sqlMap>

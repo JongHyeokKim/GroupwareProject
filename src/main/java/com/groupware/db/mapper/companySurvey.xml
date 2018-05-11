@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="companySurvey">
+
+	<typeAlias alias="str" type="java.lang.String" />
+	<typeAlias alias="int" type="java.lang.Integer" />
+	<typeAlias alias="companySurveyVO" type="com.groupware.dto.CompanySurveyVO" />
+	<typeAlias alias="companySurveyCheckVO" type="com.groupware.dto.CompanySurveyCheckVO" />
+
+	<insert id="addcheckSearch" parameterClass="map">
+		INSERT INTO RESEARCH_DUPLICATION (RES_DUP_RES_CODE,RES_DUP_MEM_NUM)
+		VALUES(#res_dup_res_code#, #res_dup_mem_num#)
+	</insert>
+
+	<select id="checkSearch" resultClass="companySurveyCheckVO"
+		parameterClass="map">
+		SELECT * FROM RESEARCH_DUPLICATION WHERE RES_DUP_RES_CODE=#res_dup_res_code#
+		AND
+		RES_DUP_MEM_NUM=#res_dup_mem_num#
+	</select>
+
+	<select resultClass="companySurveyVO" id="companySurveyList">
+		SELECT
+		RES_CLASSI_NM,
+		RES_RES_CLASSI_CODE,
+		RES_CODE,
+		RES_TT,
+		RES_EX_TT,
+		RES_IT1,
+		RES_IT2,
+		RES_IT3,
+		RES_IT4,
+		RES_PROG_ST,
+		RES_ENR_DAY,
+		RES_MEM_NUM,
+		RES_COUNT1,
+		RES_COUNT2,
+		RES_COUNT3,
+		RES_COUNT4,
+		RES_WRT_DAY,
+		MEM_NM
+		FROM
+		RES_VIEW,
+		MEMBER WHERE RES_VIEW.RES_MEM_NUM=MEMBER.MEM_NUM
+		ORDER BY RES_CODE DESC
+
+	</select>
+
+	<select resultClass="companySurveyVO" id="companySurveySearch"
+		parameterClass="str">
+		SELECT * FROM RES_VIEW WHERE RES_TT LIKE
+		'%'||#key#||'%'
+	</select>
+
+	<select resultClass="companySurveyVO" id="companySurveyInformation"
+		parameterClass="str">
+		SELECT
+		RES_CLASSI_NM,
+		RES_RES_CLASSI_CODE,
+		RES_CODE,
+		RES_TT,
+		RES_EX_TT,
+		RES_IT1,
+		RES_IT2,
+		RES_IT3,
+		RES_IT4,
+		RES_PROG_ST,
+		RES_ENR_DAY,
+		RES_MEM_NUM,
+		RES_COUNT1,
+		RES_COUNT2,
+		RES_COUNT3,
+		RES_COUNT4,
+		RES_WRT_DAY,
+		MEM_NM
+		FROM
+		RES_VIEW, MEMBER WHERE
+		RES_VIEW.RES_MEM_NUM=MEMBER.MEM_NUM AND RES_CODE=#res_code#
+	</select>
+
+	<insert id="companySurveyWrite" parameterClass="companySurveyVO">
+		INSERT INTO
+		RESEARCH(RES_CODE, RES_TT, RES_EX_TT, RES_IT1, RES_IT2, RES_IT3,
+		RES_IT4, RES_PROG_ST, RES_ENR_DAY, RES_MEM_NUM, RES_RES_CLASSI_CODE)
+		VALUES(RES_SEQ.NEXTVAL, #res_tt#, #res_ex_tt#, #res_it1#, #res_it2#, #res_it3#,
+		#res_it4#, 1, #res_enr_day#, #res_mem_num#, #res_res_classi_code#)
+	</insert>
+
+	<update id="companySurveyUpdate" parameterClass="companySurveyVO">
+		UPDATE RESEARCH
+		SET RES_TT=#res_tt#
+		, RES_EX_TT=#res_ex_tt#
+		, RES_IT1=#res_it1#
+		,
+		RES_IT2=#res_it2#
+		, RES_IT3=#res_it3#
+		, RES_IT4=#res_it4#
+		, RES_PROG_ST=1
+		, RES_ENR_DAY=#res_enr_day#
+		, RES_RES_CLASSI_CODE=#res_res_classi_code#
+		WHERE RES_CODE=#res_code#
+	</update>
+
+	<delete id="companySurveyDelete">
+		DELETE RESEARCH WHERE RES_CODE=#res_code#
+	</delete>
+
+	<update id="companySurveyDeadlineUpdate" parameterClass="map">
+		UPDATE
+		RESEARCH SET RES_PROG_ST=2 WHERE RES_CODE = #res_code#
+	</update>
+
+	<!-- <update id="companySurveyAdd" parameterClass="map"> UPDATE RESEARCH 
+		SET RES_COUNT1=#res_count1#, RES_COUNT2=#res_count2#, RES_COUNT3=#res_count3#, 
+		RES_COUNT4=#res_count4# WHERE RES_CODE = #res_code# </update> -->
+	<select id="checkCount" resultClass="companySurveyVO">
+		SELECT
+		RES_COUNT1,RES_COUNT2, RES_COUNT3, RES_COUNT4
+		FROM RESEARCH
+		WHERE
+		RES_CODE = #res_code#
+	</select>
+
+	<update id="countUpdate" parameterClass="map">
+		UPDATE RESEARCH SET
+		RES_COUNT1=#res_code1#,RES_COUNT2=#res_code2#,
+		RES_COUNT3=#res_code3#,
+		RES_COUNT4=#res_code4#
+	</update>
+
+	<select resultClass="companySurveyVO" id="getcountTotal"
+		parameterClass="map">
+		SELECT RES_COUNT1=#res_count1#, RES_COUNT2=#res_count2#,
+			   RES_COUNT3=#res_count3#, RES_COUNT4=#res_count4#
+		FROM   RES_VIEW
+		WHERE  RES_CODE=#res_code#
+	</select>
+
+</sqlMap>

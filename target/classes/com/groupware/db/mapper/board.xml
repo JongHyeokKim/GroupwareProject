@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="board">
+
+	<typeAlias alias="str" type="java.lang.String" />
+	<typeAlias alias="int" type="java.lang.Integer" />
+	<typeAlias alias="boardVO" type="com.groupware.dto.BoardVO" />
+
+	<select id="noticeList" resultClass="boardVO">
+		SELECT BR_WRT_NUM,
+		BR_CODE,
+		BR_TT,
+		BR_WRIT_DAY,
+		BR_CONT,
+		BR_MEM_NUM,
+		BR_FILE,
+		MEM_NM
+		FROM BOARD,MEMBER WHERE BR_CODE=1 
+		AND BOARD.BR_MEM_NUM = MEMBER.MEM_NUM
+		ORDER BY BR_WRT_NUM DESC
+	</select>
+
+
+	<select id="workNewsList" resultClass="boardVO">
+	SELECT BR_WRT_NUM,
+		BR_CODE,
+		BR_TT,
+		BR_WRIT_DAY,
+		BR_CONT,
+		BR_MEM_NUM,
+		BR_FILE,
+		MEM_NM
+		FROM BOARD,MEMBER WHERE BR_CODE=2 
+		AND BOARD.BR_MEM_NUM = MEMBER.MEM_NUM
+		ORDER BY BR_WRT_NUM DESC
+	</select>
+
+	<select id="noticeInformation" resultClass="boardVO"
+		parameterClass="str">
+		SELECT BR_WRT_NUM,
+		BR_CODE,
+		BR_TT,
+		BR_WRIT_DAY,
+		BR_CONT,
+		BR_MEM_NUM,
+		BR_FILE,
+		MEM_NM
+		FROM BOARD,MEMBER 
+		WHERE BR_CODE=1 
+		AND BR_WRT_NUM=#br_wrt_num# 
+		AND BOARD.BR_MEM_NUM = MEMBER.MEM_NUM
+		ORDER BY BR_WRT_NUM DESC
+	
+	</select>
+	<select id="workNewsInformation" resultClass="boardVO"
+		parameterClass="str">
+	SELECT BR_WRT_NUM,
+		BR_CODE,
+		BR_TT,
+		BR_WRIT_DAY,
+		BR_CONT,
+		BR_MEM_NUM,
+		BR_FILE,
+		MEM_NM
+		FROM BOARD,MEMBER 
+		WHERE BR_CODE=2 
+		AND BR_WRT_NUM=#br_wrt_num# 
+		AND BOARD.BR_MEM_NUM = MEMBER.MEM_NUM
+		ORDER BY BR_WRT_NUM DESC
+	</select>
+
+
+	<select id="NoticeSearch" resultClass="boardVO" parameterClass="str">
+		SELECT * FROM BOARD WHERE BR_CODE=1 AND BR_TT LIKE '%'||#key#||'%'
+	</select>
+	<select id="WorkNewsSearch" resultClass="boardVO"
+		parameterClass="str">
+		SELECT * FROM BOARD WHERE BR_CODE=2 AND BR_TT LIKE '%'||#key#||'%'
+	</select>
+
+
+
+
+	<insert id="NoticeWriteCom" parameterClass="boardVO">
+		INSERT INTO BOARD(BR_WRT_NUM, BR_CODE, BR_TT, BR_CONT, BR_MEM_NUM, BR_FILE)
+		VALUES(BR_NOTICE_SEQ.NEXTVAL, 1, #br_tt#, #br_cont#, #br_mem_num#,#br_file#)
+	</insert>
+	<insert id="WorkNewsWriteCom" parameterClass="boardVO">
+		INSERT INTO BOARD(BR_WRT_NUM, BR_CODE, BR_TT, BR_CONT, BR_MEM_NUM,BR_FILE)
+		VALUES(BR_NEWS_SEQ.NEXTVAL, 2, #br_tt#, #br_cont#, #br_mem_num#, #br_file#)
+	</insert>
+
+
+
+
+	<update id="NoticeUpdateCom" parameterClass="boardVO">
+		UPDATE BOARD SET BR_TT=#br_tt#, BR_CONT=#br_cont# ,BR_FILE=#br_file# 
+		WHERE BR_WRT_NUM=#br_wrt_num# AND BR_CODE=1
+	</update>
+	<update id="WorkNewsUpdateCom" parameterClass="boardVO">
+		UPDATE BOARD SET BR_TT=#br_tt#, BR_CONT=#br_cont# ,BR_FILE=#br_file# 
+		WHERE BR_WRT_NUM=#br_wrt_num# AND BR_CODE=2
+	</update>
+
+	<delete id="noticeDelete">
+		DELETE BOARD 
+		WHERE BR_CODE=1 
+		AND BR_WRT_NUM=#br_wrt_num#
+	</delete>
+	<delete id="workNewsDelete">
+		DELETE BOARD 
+		WHERE BR_CODE=2 
+		AND BR_WRT_NUM=#br_wrt_num#
+	</delete>
+
+
+
+
+</sqlMap>

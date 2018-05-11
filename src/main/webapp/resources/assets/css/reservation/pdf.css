@@ -1,0 +1,8 @@
+@CHARSET "UTF-8";1
+@font-face {
+    font-family: 'malgun';
+    src: url(resources/font/malgun.ttf) format('truetype');
+}
+body{
+	font-family:Malgun;
+}

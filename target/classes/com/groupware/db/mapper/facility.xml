@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 사내시설                        -->
+<!-- << 개정이력(Modification Information) >>            -->
+<!--  수정일       수정자          수정내용              -->
+<!--  =======      =======     =====================     -->
+<!--  2016.08.30.    김성수              최초생성                 -->
+<!-- Copyright (c) 2016 by DDIT  All right reserved      -->
+
+<sqlMap namespace="facility">
+
+	<typeAlias alias="str" type="java.lang.String" />
+	<typeAlias alias="int" type="java.lang.Integer" />
+	<typeAlias alias="facilityVO" type="com.groupware.dto.FacilityVO" />
+
+	<!-- facility.getFacilityList -->
+	<select id="getFacilityList" resultClass="facilityVO">
+		SELECT FAC_CODE, FAC_NAME, FAC_IMG, FAC_DESC FROM FACILITY ORDER BY FAC_CODE
+	</select>
+	
+	<!-- facility.facilityInsert -->
+	<insert id="facilityInsert" parameterClass="facilityVO">
+		INSERT INTO FACILITY(FAC_CODE,FAC_NAME,FAC_IMG,FAC_IMG1,FAC_IMG2,FAC_DESC,FAC_PHONE)
+		VALUES(facility_seq.nextval
+		<dynamic>
+			<isNotEmpty prepend="," property="fac_name">
+				#fac_name#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="fac_img">
+				#fac_img#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="fac_img1">
+				#fac_img1#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="fac_img2">
+				#fac_img2#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="fac_desc">
+				#fac_desc#
+			</isNotEmpty>
+		</dynamic>
+		,'042-255-4174')
+	</insert>
+
+	<!-- facility.getFacilityInfo -->
+	<select id="getFacilityInfo" parameterClass="str" resultClass="facilityVO">
+		SELECT FAC_CODE, FAC_NAME, FAC_IMG, FAC_IMG1, FAC_IMG2, FAC_DESC, FAC_PHONE 
+		FROM FACILITY
+		WHERE FAC_CODE=#fac_code#
+	</select>
+	
+	<!-- facility.facilityUpdate -->
+	<update id="facilityUpdate" parameterClass="facilityVO">
+		UPDATE FACILITY
+		SET FAC_NAME=#fac_name# 
+		<dynamic>
+			<isNotEmpty prepend="," property="fac_img">
+				FAC_IMG=#fac_img#
+			</isNotEmpty>
+		</dynamic>
+		<dynamic>
+			<isNotEmpty prepend="," property="fac_img1">
+				FAC_IMG1=#fac_img1#
+			</isNotEmpty>
+		</dynamic>
+		<dynamic>
+			<isNotEmpty prepend="," property="fac_img2">
+				FAC_IMG2=#fac_img2#
+			</isNotEmpty>
+		</dynamic>
+		, FAC_DESC=#fac_desc#
+		WHERE FAC_CODE=#fac_code#
+	</update>
+
+	<!-- facility.facilityUpdate1 -->
+	<update id="facilityUpdate1" parameterClass="facilityVO">
+		UPDATE FACILITY
+		SET FAC_NAME=#fac_name# 
+		<dynamic>
+			<isNotEmpty prepend="," property="fac_img">
+				FAC_IMG=#fac_img#
+			</isNotEmpty>
+		</dynamic>
+		, FAC_DESC=#fac_desc#
+		WHERE FAC_CODE=#fac_code#
+	</update>
+	
+	<!-- facility.facilityUpdate2 -->
+	<update id="facilityUpdate2" parameterClass="facilityVO">
+		UPDATE FACILITY
+		SET FAC_NAME=#fac_name# 
+		<dynamic>
+			<isNotEmpty prepend="," property="fac_img1">
+				FAC_IMG1=#fac_img1#
+			</isNotEmpty>
+		</dynamic>
+		, FAC_DESC=#fac_desc#
+		WHERE FAC_CODE=#fac_code#
+	</update>
+	
+	<!-- facility.facilityUpdate3 -->
+	<update id="facilityUpdate3" parameterClass="facilityVO">
+		UPDATE FACILITY
+		SET FAC_NAME=#fac_name# 
+		<dynamic>
+			<isNotEmpty prepend="," property="fac_img2">
+				FAC_IMG2=#fac_img2#
+			</isNotEmpty>
+		</dynamic>
+		, FAC_DESC=#fac_desc#
+		WHERE FAC_CODE=#fac_code#
+	</update>
+	
+	<!-- facility.facilityUpdate4 -->
+	<update id="facilityUpdate4" parameterClass="facilityVO">
+		UPDATE FACILITY
+		SET FAC_NAME=#fac_name# 
+			, FAC_DESC=#fac_desc#
+		WHERE FAC_CODE=#fac_code#
+	</update>
+		
+	<!-- facility.facilityDelete -->
+	<delete id="facilityDelete">
+		DELETE FROM FACILITY
+		WHERE FAC_CODE=#fac_code#
+	</delete>
+
+</sqlMap>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

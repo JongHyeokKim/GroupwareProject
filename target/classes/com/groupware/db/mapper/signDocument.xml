@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- XML -->
+<!-- 기안문서 관리 						                     -->
+<!-- << 개정이력(Modification Information) >>           	 -->
+<!--  수정일       수정자          수정내용              -->
+<!--  =======      =======     =====================     -->
+<!--  2016.08.31  박진우       최초생성                 -->
+<!-- Copyright (c) 2016 by DDIT  All right reserved      -->
+
+
+<!--namespace.id -->
+<sqlMap namespace="documentList">
+
+	<typeAlias alias="str" type="java.lang.String" />
+	<typeAlias alias="int" type="java.lang.Integer" />
+	<typeAlias alias="signDocumentVO" type="com.groupware.dto.Sign_DocumentVO" />
+	<typeAlias alias="stampVO" type="com.groupware.dto.StampVO" />
+	
+	<!-- <select id="docList"> -->
+	<select id="docList" parameterClass="map" resultClass="signDocumentVO" >
+		SELECT 	SIG_DOC_NUM, SIG_DOC_TT, SIG_DOC_CONT, SIG_DOC_DAY, SIG_DOC_SIG_ST_NUM, SIG_DOC_CLASSI, SIG_ST_NM
+		FROM 	SIGN_DOCUMENT, SIGN_STATE
+		WHERE	SIGN_DOCUMENT.SIG_DOC_MEM_NUM = #mem_num#
+			 AND
+				SIGN_DOCUMENT.SIG_DOC_SIG_ST_NUM = SIGN_STATE.SIG_ST_NUM
+       		 AND
+        		SIGN_DOCUMENT.SIG_DOC_SIG_ST_NUM=#stateNum#
+	</select>
+	
+	<!-- <select id="docListAll"> -->
+	<select id="docListAll" resultClass="signDocumentVO" >
+		SELECT SIG_DOC_NUM, SIG_DOC_TT, SIG_DOC_CONT, SIG_DOC_DAY, SIG_DOC_SIG_ST_NUM, SIG_ST_NM, SIG_DOC_CLASSI
+		FROM SIGN_DOCUMENT, SIGN_STATE
+		WHERE SIGN_DOCUMENT.SIG_DOC_SIG_ST_NUM = SIGN_STATE.SIG_ST_NUM
+			AND
+			  SIGN_DOCUMENT.SIG_DOC_MEM_NUM=#mem_num#
+	</select>
+	
+	<!-- <select id="docDetail"> -->
+	<select id="docDetail" parameterClass="int" resultClass="signDocumentVO">
+		
+		SELECT SIG_DOC_NUM, SIG_DOC_TT, SIG_DOC_CONT, SIG_DOC_SIG_ST_NUM, SIG_DOC_DAY, SIG_DOC_CLASSI, SIG_ST_NM, SIG_DOC_MEM_NUM, MEM_NM, SIG_DOC_PERIOD, SIG_DOC_SIG_LIN_NUM, MEM_NM, DEP_NM
+		FROM SIGN_DOCUMENT, SIGN_STATE, MEMBER, DEPARTMENT
+		WHERE 	SIGN_DOCUMENT.SIG_DOC_SIG_ST_NUM = SIGN_STATE.SIG_ST_NUM
+			AND
+				SIGN_DOCUMENT.SIG_DOC_MEM_NUM = MEMBER.MEM_NUM
+			AND
+				MEMBER.MEM_DEP_CODE = DEPARTMENT.DEP_CODE
+			AND
+			    SIGN_DOCUMENT.SIG_DOC_NUM=#docNum#
+	</select>
+	
+	<!-- <insert id="insertElectDocument"> -->
+	<insert id="insertElectDocument" parameterClass="signDocumentVO">
+		INSERT INTO SIGN_DOCUMENT(SIG_DOC_NUM, SIG_DOC_TT, SIG_DOC_CONT, SIG_DOC_DAY, SIG_DOC_PERIOD, SIG_DOC_SIG_ST_NUM, SIG_DOC_CLASSI,SIG_DOC_MEM_NUM, SIG_DOC_SIG_LIN_NUM)
+		VALUES(SIG_DOC_SEQ.NEXTVAL,#sig_doc_tt#,#sig_doc_cont#,#sig_doc_day#,#sig_doc_period#,#sig_doc_sig_st_num#,#sig_doc_classi#,#sig_doc_mem_num#, #sig_doc_sig_lin_num#) 
+	</insert>
+	<!-- <insert id="insertTransElectDocument"> -->
+	<insert id="insertTransElectDocument" parameterClass="signDocumentVO">
+		INSERT INTO SIGN_DOCUMENT(SIG_DOC_NUM, SIG_DOC_TT, SIG_DOC_CONT, SIG_DOC_DAY, SIG_DOC_PERIOD, SIG_DOC_SIG_ST_NUM, SIG_DOC_CLASSI,SIG_DOC_MEM_NUM, SIG_DOC_SIG_LIN_NUM)
+		VALUES(SIG_DOC_SEQ.NEXTVAL,#sig_doc_tt#,#sig_doc_cont#,#sig_doc_day#,#sig_doc_period#,#sig_doc_sig_st_num#,#sig_doc_classi#,#sig_doc_mem_num#, #sig_doc_sig_lin_num#)
+		<selectKey resultClass="int">
+			SELECT SIG_DOC_NUM FROM SIGN_DOCUMENT
+		</selectKey> 
+	</insert>
+	
+	<!-- <select id="approvalDocList> -->
+	<select id="approvalDocList" parameterClass="map" resultClass="signDocumentVO">
+		SELECT 	SIG_DOC_NUM, SIG_DOC_TT, SIG_DOC_CONT, SIG_DOC_DAY, SIG_DOC_SIG_ST_NUM, SIG_ST_NM, SIG_DOC_CLASSI
+		FROM 	SIGN_DOCUMENT, SIGN_STATE, SIGN_LINE, SIGN_LINE_DETAIL
+		WHERE	
+				SIGN_DOCUMENT.SIG_DOC_SIG_ST_NUM = SIGN_STATE.SIG_ST_NUM
+			 AND
+			 	SIGN_DOCUMENT.SIG_DOC_SIG_LIN_NUM = SIGN_LINE.SIG_LIN_NUM
+			 AND
+			 	SIGN_LINE.SIG_LIN_NUM = SIGN_LINE_DETAIL.SIG_LIN_DT_NUM
+			 AND
+			 	SIGN_LINE_DETAIL.SIG_LIN_DT_MEM_NUM = #mem_num#
+			 AND
+			 	SIGN_LINE_DETAIL.SIG_LIN_DT_ST = #approvalState#
+	</select>
+	<!-- <select id="stampList> -->
+	<select id="stampList" parameterClass="map" resultClass="stampVO">
+		SELECT MEMBER.MEM_STAMP, SIGN_LINE_DETAIL.SIG_LIN_DT_PREF, SIGN_LINE_DETAIL.SIG_LIN_DT_ST
+		FROM   MEMBER, SIGN_DOCUMENT, SIGN_STATE, SIGN_LINE, SIGN_LINE_DETAIL
+		WHERE 	SIGN_DOCUMENT.SIG_DOC_SIG_ST_NUM = SIGN_STATE.SIG_ST_NUM
+			 AND
+			 	SIGN_DOCUMENT.SIG_DOC_SIG_LIN_NUM = SIGN_LINE.SIG_LIN_NUM
+			 AND
+			 	SIGN_LINE.SIG_LIN_NUM = SIGN_LINE_DETAIL.SIG_LIN_DT_NUM
+		     AND
+		        MEMBER.MEM_NUM = SIGN_LINE_DETAIL.SIG_LIN_DT_MEM_NUM
+		     AND
+			    SIGN_DOCUMENT.SIG_DOC_NUM=#docNum#
+		     AND
+				SIGN_LINE_DETAIL.SIG_LIN_DT_ST = 2
+			 OR
+			 	SIGN_DOCUMENT.SIG_DOC_SIG_ST_NUM = SIGN_STATE.SIG_ST_NUM
+			 AND
+			 	SIGN_DOCUMENT.SIG_DOC_SIG_LIN_NUM = SIGN_LINE.SIG_LIN_NUM
+			 AND
+			 	SIGN_LINE.SIG_LIN_NUM = SIGN_LINE_DETAIL.SIG_LIN_DT_NUM
+		     AND
+		        MEMBER.MEM_NUM = SIGN_LINE_DETAIL.SIG_LIN_DT_MEM_NUM
+		     AND
+			    SIGN_DOCUMENT.SIG_DOC_NUM=#docNum#
+		     AND
+				SIGN_LINE_DETAIL.SIG_LIN_DT_ST = 3
+			 OR
+			 	SIGN_DOCUMENT.SIG_DOC_SIG_ST_NUM = SIGN_STATE.SIG_ST_NUM
+			 AND
+			 	SIGN_DOCUMENT.SIG_DOC_SIG_LIN_NUM = SIGN_LINE.SIG_LIN_NUM
+			 AND
+			 	SIGN_LINE.SIG_LIN_NUM = SIGN_LINE_DETAIL.SIG_LIN_DT_NUM
+		     AND
+		        MEMBER.MEM_NUM = SIGN_LINE_DETAIL.SIG_LIN_DT_MEM_NUM
+		     AND
+			    SIGN_DOCUMENT.SIG_DOC_NUM=#docNum#
+		     AND
+				SIGN_LINE_DETAIL.SIG_LIN_DT_ST = 4
+		
+	</select>
+	<!-- <select id="prefList"> -->
+	<select id="prefList" parameterClass="map" resultClass="stampVO">
+		SELECT SIG_LIN_DT_PREF
+		FROM   MEMBER, SIGN_DOCUMENT, SIGN_STATE, SIGN_LINE, SIGN_LINE_DETAIL
+		WHERE 
+			  SIGN_DOCUMENT.SIG_DOC_SIG_ST_NUM = SIGN_STATE.SIG_ST_NUM
+			 AND
+			 	SIGN_DOCUMENT.SIG_DOC_SIG_LIN_NUM = SIGN_LINE.SIG_LIN_NUM
+			 AND
+			 	SIGN_LINE.SIG_LIN_NUM = SIGN_LINE_DETAIL.SIG_LIN_DT_NUM
+		     AND
+		        MEMBER.MEM_NUM = SIGN_LINE_DETAIL.SIG_LIN_DT_MEM_NUM
+		     AND
+			    SIGN_DOCUMENT.SIG_DOC_NUM=#docNum#
+		     AND
+				SIGN_LINE_DETAIL.SIG_LIN_DT_ST = 1
+			 AND
+			 	SIGN_LINE_DETAIL.SIG_LIN_DT_MEM_NUM = #docLoginMem#
+	</select>
+	<!-- <insert id="lineNumEnroll"> -->
+	<insert id="lineNumEnroll" >
+		INSERT INTO SIGN_LINE(SIG_LIN_NUM) values(SIG_LIN_SEQ.NEXTVAL)
+		<selectKey resultClass="int">
+        	SELECT SIG_LIN_SEQ.CURRVAL FROM DUAL
+    	</selectKey>	
+	</insert>
+	
+	<!-- <insert id="lineEnroll"> -->
+	<insert id="lineEnroll" parameterClass="map">
+		INSERT INTO SIGN_LINE_DETAIL(SIG_LIN_DT_PREF, SIG_LIN_DT_ST, SIG_LIN_DT_NUM,SIG_LIN_DT_MEM_NUM,SIG_LIN_DT_CODE, SIG_LIN_DT_POS)
+		VALUES(#signMemPr#,#signDtSt#,#lineNum#,#signMem#,SIG_LIN_DT_SEQ.NEXTVAL, #signMemPos#)
+	</insert>
+	<!-- <update id="okSign"> -->
+	<update id="okSign" parameterClass="map">
+		UPDATE 		SIGN_LINE_DETAIL SET SIG_LIN_DT_ST=#dtNum#, SIG_LIN_DT_COMM=#inputString#
+		WHERE 		SIGN_LINE_DETAIL.SIG_LIN_DT_PREF=#prefNum#	
+			AND		SIG_LIN_DT_NUM = (SELECT	SIG_DOC_NUM
+								   	  FROM		SIGN_DOCUMENT
+								   	  WHERE 	SIGN_DOCUMENT.SIG_DOC_NUM=#docNum#)
+	</update>
+	<!-- <update id="okSignPre"> -->
+	<update id="okSignPre" parameterClass="map">
+		UPDATE 		SIGN_LINE_DETAIL SET SIG_LIN_DT_ST=#dtNum#
+		WHERE 		SIGN_LINE_DETAIL.SIG_LIN_DT_PREF=#prefNum#
+			AND		SIG_LIN_DT_NUM = (SELECT	SIG_DOC_NUM
+								   	  FROM		SIGN_DOCUMENT
+								   	  WHERE 	SIGN_DOCUMENT.SIG_DOC_NUM=#docNum#)
+	</update>
+	<!-- <update id="finalDocOk"> -->
+	<update id="finalDocOk" parameterClass="map">
+		UPDATE SIGN_DOCUMENT SET SIG_DOC_SIG_ST_NUM = #finalDoc#
+		WHERE SIG_DOC_NUM=#docNum#
+	</update>
+	<!-- <select id="getMyReturnList"> -->
+	<select id="getMyReturnList" parameterClass="map" resultClass="signDocumentVO">
+		SELECT 	SIG_DOC_NUM, SIG_DOC_TT, SIG_DOC_CONT, SIG_DOC_DAY, SIG_DOC_SIG_ST_NUM, SIG_DOC_CLASSI, SIG_ST_NM
+		FROM 	SIGN_DOCUMENT, SIGN_STATE, SIGN_LINE, SIGN_LINE_DETAIL, MEMBER
+		WHERE	SIGN_DOCUMENT.SIG_DOC_SIG_ST_NUM = SIGN_STATE.SIG_ST_NUM
+       		 AND
+       		 	SIGN_DOCUMENT.SIG_DOC_SIG_LIN_NUM = SIGN_LINE.SIG_LIN_NUM
+       		 AND
+       		 	SIGN_LINE.SIG_LIN_NUM = SIGN_LINE_DETAIL.SIG_LIN_DT_NUM
+        	 AND
+        	 	SIGN_LINE_DETAIL.SIG_LIN_DT_MEM_NUM = MEMBER.MEM_NUM
+        	 AND
+        		SIGN_DOCUMENT.SIG_DOC_SIG_ST_NUM=#stateNum#
+        	 AND
+        	 	SIGN_LINE_DETAIL.SIG_LIN_DT_ST=#sig_lin_dt_st#
+        	 AND
+        	 	SIGN_LINE_DETAIL.SIG_LIN_DT_MEM_NUM=#mem_num#
+	</select>
+	<!-- <select id="getMyApprovalList"> -->
+	<select id="getMyApprovalList" parameterClass="map" resultClass="signDocumentVO">
+		SELECT 	SIG_DOC_NUM, SIG_DOC_TT, SIG_DOC_CONT, SIG_DOC_DAY, SIG_DOC_SIG_ST_NUM, SIG_DOC_CLASSI, SIG_ST_NM
+		FROM 	SIGN_DOCUMENT, SIGN_STATE, SIGN_LINE, SIGN_LINE_DETAIL, MEMBER
+		WHERE	SIGN_DOCUMENT.SIG_DOC_SIG_ST_NUM = SIGN_STATE.SIG_ST_NUM
+       		 AND
+       		 	SIGN_DOCUMENT.SIG_DOC_SIG_LIN_NUM = SIGN_LINE.SIG_LIN_NUM
+       		 AND
+       		 	SIGN_LINE.SIG_LIN_NUM = SIGN_LINE_DETAIL.SIG_LIN_DT_NUM
+        	 AND
+        	 	SIGN_LINE_DETAIL.SIG_LIN_DT_MEM_NUM = MEMBER.MEM_NUM
+        	 AND
+        	 	SIGN_LINE_DETAIL.SIG_LIN_DT_ST=2
+        	 AND
+        	 	SIGN_LINE_DETAIL.SIG_LIN_DT_MEM_NUM=#mem_num#
+			 OR	
+			 	SIGN_DOCUMENT.SIG_DOC_SIG_ST_NUM = SIGN_STATE.SIG_ST_NUM
+       		 AND
+       		 	SIGN_DOCUMENT.SIG_DOC_SIG_LIN_NUM = SIGN_LINE.SIG_LIN_NUM
+       		 AND
+       		 	SIGN_LINE.SIG_LIN_NUM = SIGN_LINE_DETAIL.SIG_LIN_DT_NUM
+        	 AND
+        	 	SIGN_LINE_DETAIL.SIG_LIN_DT_MEM_NUM = MEMBER.MEM_NUM
+        	 AND
+        	 	SIGN_LINE_DETAIL.SIG_LIN_DT_ST=3
+        	 AND
+        	 	SIGN_LINE_DETAIL.SIG_LIN_DT_MEM_NUM=#mem_num#
+	</select>
+	<!-- <update id="changeDocState"> -->
+	<update id="changeDocState" parameterClass="map">
+		UPDATE SIGN_DOCUMENT SET SIG_DOC_SIG_ST_NUM=#stNum#
+		WHERE SIG_DOC_NUM=#docNum#
+	</update>
+	<!-- <update id="transDocUp"> -->
+	<update id="transDocUp" parameterClass="signDocumentVO">
+		UPDATE SIGN_DOCUMENT SET SIG_DOC_TT=#sig_doc_tt#, SIG_DOC_CONT=#sig_doc_cont#
+		WHERE SIG_DOC_NUM=#sig_doc_num#
+	</update>
+	<!-- <update id="transDocUpChange"> -->
+	<update id="transDocUpChange" parameterClass="signDocumentVO">
+		UPDATE SIGN_DOCUMENT SET SIG_DOC_SIG_ST_NUM=5
+		WHERE SIG_DOC_NUM=#sig_doc_num#
+	</update>
+	<!-- <select id="returnComment"> -->
+	<select id="returnComment" parameterClass="int" resultClass="signDocumentVO">
+		SELECT MEM_NM, SIG_LIN_DT_POS, SIG_LIN_DT_COMM
+		FROM SIGN_DOCUMENT, SIGN_LINE, SIGN_LINE_DETAIL, MEMBER
+		WHERE 	SIGN_DOCUMENT.SIG_DOC_SIG_LIN_NUM = SIGN_LINE.SIG_LIN_NUM
+			AND
+				SIGN_LINE.SIG_LIN_NUM = SIGN_LINE_DETAIL.SIG_LIN_DT_NUM
+			AND
+				SIGN_LINE_DETAIL.SIG_LIN_DT_MEM_NUM = MEMBER.MEM_NUM
+			AND
+				SIGN_DOCUMENT.SIG_DOC_NUM = #docNum#
+			AND
+				SIGN_LINE_DETAIL.SIG_LIN_DT_ST=4
+	</select>
+	<!-- <select id="approvalName"> -->
+	<select id="approvalName" parameterClass="int" resultClass="signDocumentVO">
+		SELECT MEM_NM, SIG_LIN_DT_POS
+		FROM SIGN_DOCUMENT, SIGN_LINE, SIGN_LINE_DETAIL, MEMBER
+		WHERE 	SIGN_DOCUMENT.SIG_DOC_SIG_LIN_NUM = SIGN_LINE.SIG_LIN_NUM
+			AND
+				SIGN_LINE.SIG_LIN_NUM = SIGN_LINE_DETAIL.SIG_LIN_DT_NUM
+			AND
+				SIGN_LINE_DETAIL.SIG_LIN_DT_MEM_NUM = MEMBER.MEM_NUM
+			AND
+				SIGN_DOCUMENT.SIG_DOC_NUM = #docNum#
+			AND
+				SIGN_LINE_DETAIL.SIG_LIN_DT_ST=3
+	</select>
+	<!-- <select id="signList"> -->
+	<select id="signList" parameterClass="int" resultClass="signDocumentVO">
+		SELECT MEM_NM, SIG_LIN_DT_POS, SIG_LIN_DT_COMM
+		FROM SIGN_DOCUMENT, SIGN_LINE, SIGN_LINE_DETAIL, MEMBER
+		WHERE 	SIGN_DOCUMENT.SIG_DOC_SIG_LIN_NUM = SIGN_LINE.SIG_LIN_NUM
+			AND
+				SIGN_LINE.SIG_LIN_NUM = SIGN_LINE_DETAIL.SIG_LIN_DT_NUM
+			AND
+				SIGN_LINE_DETAIL.SIG_LIN_DT_MEM_NUM = MEMBER.MEM_NUM
+			AND
+				SIGN_DOCUMENT.SIG_DOC_NUM = #docNum#
+	</select>
+	<!-- <delete id="backDoc"> -->
+	<delete id="backDoc" parameterClass="int">
+		DELETE 	FROM SIGN_LINE_DETAIL
+		WHERE 	SIG_LIN_DT_NUM = (SELECT SIGN_LINE_DETAIL.SIG_LIN_DT_NUM
+								  FROM	 SIGN_DOCUMENT, SIGN_LINE, SIGN_LINE_DETAIL
+								  WHERE	 SIGN_DOCUMENT.SIG_DOC_SIG_LIN_NUM = SIGN_LINE.SIG_LIN_NUM
+								  	AND
+								  		SIGN_LINE.SIG_LIN_NUM = SIGN_LINE_DETAIL.SIG_LIN_DT_NUM
+								  	AND
+								  	   	SIGN_DOCUMENT.SIG_DOC_NUM=#sig_doc_num#)
+	</delete>
+	<!-- <update id="backDocSt"> -->
+	<update id="backDocSt" parameterClass="int">
+		UPDATE SIGN_DOCUMENT SET SIG_DOC_SIG_ST_NUM=1
+		WHERE SIG_DOC_NUM=#sig_doc_num#
+	</update>
+	
+	<select id="docWaitDtSt" parameterClass="map">
+		SELECT 	SIG_DOC_NUM, SIG_DOC_TT, SIG_DOC_CONT, SIG_DOC_DAY, SIG_DOC_SIG_ST_NUM, SIG_DOC_CLASSI, SIG_ST_NM
+		FROM 	SIGN_DOCUMENT, SIGN_STATE, SIGN_LINE, SIGN_LINE_DETAIL
+		WHERE	SIGN_DOCUMENT.SIG_DOC_SIG_ST_NUM = SIGN_STATE.SIG_ST_NUM
+			 AND
+			 	SIGN_DOCUMENT.SIG_DOC_SIG_LIN_NUM = SIGN_LINE.SIG_LIN_NUM
+       		 AND
+       		 	SIGN_LINE.SIG_LIN_NUM = SIGN_LINE_DETAIL.SIG_LIN_DT_NUM
+			 AND
+			 	SIGN_LINE_DETAIL.SIG_LIN_DT_MEM_NUM = #mem_num#
+       		 AND
+        		SIGN_LINE_DETAIL.SIG_LIN_DT_ST=#stateNum#
+	</select>
+</sqlMap>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!-- 거래처  관리                         -->
+<!-- << 개정이력(Modification Information) >>            -->
+<!--  수정일       수정자          수정내용              -->
+<!--  =======      =======     =====================     -->
+<!--  2016.08.29.   김준학                        최초생성                 -->
+<!-- Copyright (c) 2016 by DDIT  All right reserved      -->
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="account">
+
+	<typeAlias alias="str" type="java.lang.String" />
+	<typeAlias alias="int" type="java.lang.Integer" />
+	<typeAlias alias="accountVO" type="com.groupware.dto.AccountVO" />
+	
+	<select id="getCustomerList" resultClass="accountVO">
+		SELECT *
+		FROM MEMBER,ACCOUNT
+	    WHERE MEMBER.MEM_NUM=ACCOUNT.AC_MEM_NUM
+	</select>
+	
+	<insert id="customerWrite" parameterClass="accountVO">
+		INSERT INTO ACCOUNT(AC_CODE, AC_MEM_NUM, AC_NM, AC_EM, AC_REPS, AC_TEL,AC_ADDR, AC_DT_ADDR)
+					VALUES(AC_SEQ.NEXTVAL, #ac_mem_num#, #ac_nm#, #ac_em#, #ac_reps#, #ac_tel#,#ac_addr#,#ac_dt_addr#)
+	</insert>
+	
+	<select id="getCustomerInformation" resultClass="accountVO" parameterClass="str">
+		SELECT AC_CODE, AC_MEM_NUM, AC_NM, AC_EM, AC_REPS, AC_TEL,AC_ADDR,MEM_NM
+		FROM ACCOUNT, MEMBER 
+		WHERE MEMBER.MEM_NUM=ACCOUNT.AC_MEM_NUM AND AC_CODE=#ac_code#
+	</select>
+	
+	<update id="customerUpdate" parameterClass="accountVO">
+    		UPDATE ACCOUNT
+    		SET AC_NM=#ac_nm#, AC_REPS=#ac_reps#,
+    			AC_CODE=#ac_code#,
+    			AC_ADDR=#ac_addr#, AC_EM=#ac_em#, 
+    			AC_TEL=#ac_tel#
+    		WHERE AC_CODE=#ac_code#
+    </update>
+	<delete id="customerDelete">
+		DELETE ACCOUNT 
+		WHERE AC_CODE=#ac_code#
+	</delete>
+	
+	<select id="getSearchList" parameterClass="str" resultClass="accountVO">
+		SELECT AC_NM,AC_CODE,AC_TEL,AC_EM,MEM_NM
+	    FROM MEMBER ,ACCOUNT
+	    WHERE MEMBER.MEM_NUM=ACCOUNT.AC_MEM_NUM
+	    AND MEM_NM LIKE '%'||#searchKeyword#||'%'
+	</select>
+	
+	<select id="getSearchList1" parameterClass="str" resultClass="accountVO">
+		SELECT AC_NM,AC_CODE,AC_TEL,AC_EM, MEM_NM
+	    FROM MEMBER, ACCOUNT
+	    WHERE MEMBER.MEM_NUM=ACCOUNT.AC_MEM_NUM
+	    AND AC_NM LIKE '%'||#searchKeyword#||'%'
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</sqlMap>

@@ -1,0 +1,13 @@
+@charset "utf-8"; 
+/* ************************************** 
+        
+   File   : default.css
+   Title  : daegu
+   Author : jinuk.lee
+   Date   : 2012.05.05
+   Modify : 2012.05.05
+	 
+************************************** */
+@import url('common.css');
+@import url('layout.css');
+@import url('board.css');

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="mypage">
+
+	<typeAlias alias="str" type="java.lang.String" />
+	<typeAlias alias="memberVO" type="com.groupware.dto.MemberVO" />
+	<typeAlias alias="attendanceVO" type="com.groupware.dto.attendance.AttendanceVO" />
+	<typeAlias alias="map" type="java.util.Map"/>
+	
+	<select id="personalInformation" parameterClass="str" resultClass="memberVO">
+	   SELECT MEM_NUM,      
+              MEM_NM,       
+              MEM_PW,       
+              MEM_ADDR,     
+              MEM_DT_ADDR,  
+              substr(MEM_EM,1,(instr(MEM_EM,'@')-1)) AS MEM_EM,      
+              MEM_REG1,     
+              MEM_REG2,     
+              MEM_TEL,      
+              TO_CHAR(TO_DATE(MEM_JN,'YY/MM/DD')) AS MEM_JN,       
+              MEM_RT,      
+              MEM_IMG,      
+              MEM_STAMP,    
+              MEM_AUTHORITY,
+              MEM_DEP_CODE, 
+              MEM_POS_CODE,
+              POS_NM,      
+              DEP_NM       
+	          FROM MEMBER , DEPARTMENT, POSITION 
+	          WHERE MEM_NUM = #id# AND 
+	                MEMBER.MEM_POS_CODE = POSITION.POS_CODE AND 
+	                MEMBER.MEM_DEP_CODE = DEPARTMENT.DEP_CODE
+	</select>
+	<select id="serverancePay" parameterClass="str" resultClass="memberVO">
+	    SELECT MEM_NM,      
+	           ROUND(MONTHS_BETWEEN(SYSDATE,MEM_JN)/12) AS WORK_YEAR,
+	           TO_DATE(TO_CHAR(SYSDATE,'YYYY/MM/DD'))-TO_DATE(MEM_JN) AS WORK_DAY,
+	           POS_SAL*12*ROUND(MONTHS_BETWEEN(SYSDATE,MEM_JN)/12) AS SERVERANCE_PAY
+	           FROM MEMBER ,POSITION
+	           WHERE MEM_NUM = #id# AND MEMBER.MEM_POS_CODE = POSITION.POS_CODE
+	</select>
+	<select id="diligenceCheck" parameterClass="str" resultClass="attendanceVO">
+	   SELECT ATT_DATE,
+	          TO_CHAR(ATT_IN_TIME,'HH:MI:SS')AS ATT_IN_TIME,
+	          TO_CHAR(ATT_OUT_TIME,'HH:MI:SS') AS ATT_OUT_TIME,
+	          WK_ST_NM
+	          FROM ATTENDANCE, WORK_STATE
+	          WHERE ATT_MEM_NUM=#id# AND ATTENDANCE.ATT_WK_ST_CODE = WORK_STATE.WK_ST_CODE
+	</select>
+	<select id="searchDiligenceCheck" parameterClass="map" resultClass="attendanceVO">
+	  SELECT  ATT_DATE,
+	          TO_CHAR(ATT_IN_TIME,'HH:MI:SS')AS ATT_IN_TIME,
+	          TO_CHAR(ATT_OUT_TIME,'HH:MI:SS') AS ATT_OUT_TIME,
+	          WK_ST_NM
+	          FROM ATTENDANCE, WORK_STATE
+	          WHERE ATT_MEM_NUM=#id# AND ATTENDANCE.ATT_WK_ST_CODE=#keyword# AND ATTENDANCE.ATT_WK_ST_CODE=WORK_STATE.WK_ST_CODE AND 
+            ATT_DATE BETWEEN TO_DATE(#startDate#,'YY/MM/DD') AND TO_DATE(#endDate#,'YY/MM/DD')
+	</select>
+	<update id="personalInformationUpdate" parameterClass="memberVO">
+	 UPDATE MEMBER 
+	        SET MEM_NM=#mem_nm#, 
+	            MEM_EM=#mem_em#, 
+	            MEM_ADDR=#mem_addr#,
+	            MEM_DT_ADDR=#mem_dt_addr#,
+	            MEM_TEL=#mem_tel#
+	            WHERE MEM_NUM=#mem_num#
+	
+	</update>
+	<update id="passwordUpdate" parameterClass="map">
+	 UPDATE MEMBER
+	        SET MEM_PW = #mem_pw#
+	        WHERE MEM_NUM=#mem_num#
+	</update>
+</sqlMap>

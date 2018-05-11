@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!-- 파일함  관리                         -->
+<!-- << 개정이력(Modification Information) >>            -->
+<!--  수정일       수정자          수정내용              -->
+<!--  =======      =======     =====================     -->
+<!--  2016.08.31.   김준학                        최초생성                 -->
+<!-- Copyright (c) 2016 by DDIT  All right reserved      -->
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="file">
+
+	<typeAlias alias="str" type="java.lang.String" />
+	<typeAlias alias="int" type="java.lang.Integer" />
+	<typeAlias alias="groupFileVO" type="com.groupware.dto.GroupFileVO" />
+	
+	<select id="getGroupFileList" resultClass="GroupFileVO">
+		SELECT DOC_CODE, DOC_NM, DOC_FILE, MEM_NM, DOC_DATE 
+		FROM MEMBER, DOCUMENT
+		WHERE MEMBER.MEM_NUM=DOCUMENT.DOC_MEM_NUM
+		ORDER BY DOC_CODE DESC
+	</select>
+	
+	<select id="getSearchList" parameterClass="str" resultClass="groupFileVO">
+		SELECT DOC_CODE, DOC_NM, DOC_FILE, MEM_NM, DOC_DATE
+	    FROM MEMBER, DOCUMENT
+	    WHERE MEMBER.MEM_NUM=DOCUMENT.DOC_MEM_NUM
+	    AND DOC_NM LIKE '%'||#searchKeyword#||'%'
+	</select>
+	
+	<select id="getSearchList1" parameterClass="str" resultClass="groupFileVO">
+		SELECT DOC_CODE, DOC_NM, DOC_FILE, MEM_NM, DOC_DATE
+	    FROM MEMBER ,DOCUMENT
+	    WHERE MEMBER.MEM_NUM=DOCUMENT.DOC_MEM_NUM
+	    AND MEM_NM LIKE '%'||#searchKeyword#||'%'
+	</select>
+	
+	<select id="getGroupFileInfo" resultClass="groupFileVO" parameterClass="str">
+		SELECT DOC_CODE, DOC_NM, DOC_MEM_NUM, MEM_NM,DOC_DATE,DOC_CONT,DOC_FILE
+		FROM MEMBER, DOCUMENT 
+		WHERE MEMBER.MEM_NUM=DOCUMENT.DOC_MEM_NUM 
+		AND DOC_CODE=#doc_code#
+	</select>
+	
+	<insert id="groupFileWrite" parameterClass="groupFileVO">
+		INSERT INTO DOCUMENT(DOC_CODE,DOC_NM,DOC_CONT,DOC_FILE,DOC_MEM_NUM)
+		VALUES(DOC_SEQ.NEXTVAL,#doc_nm#,#doc_cont#,#doc_file#,#doc_mem_num#)
+	</insert>
+	
+	<update id="groupFileUpdateWithFile" parameterClass="groupFileVO">
+		UPDATE DOCUMENT
+		SET	DOC_CODE=#doc_code#,DOC_NM=#doc_nm#,DOC_CONT=#doc_cont#,DOC_FILE=#doc_file#
+		WHERE DOC_CODE=#doc_code#
+	</update>
+	<update id="groupFileUpdateWithoutFile" parameterClass="groupFileVO">
+		UPDATE DOCUMENT
+		SET	DOC_CODE=#doc_code#,DOC_NM=#doc_nm#,DOC_CONT=#doc_cont#
+		WHERE DOC_CODE=#doc_code#
+	</update>
+	
+	<delete id="groupFileDelete">
+		DELETE DOCUMENT 
+		WHERE DOC_CODE=#doc_code#
+	</delete>
+	
+	<select id="getFileName" resultClass="str">
+		SELECT DOC_FILE
+		FROM DOCUMENT
+		WHERE DOC_CODE = #doc_code#
+	</select>
+
+</sqlMap>

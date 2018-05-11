@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 쪽지함 -->
+<!-- << 개정이력(Modification Information) >> -->
+<!-- 수정일 수정자 수정내용 -->
+<!-- ======= ======= ===================== -->
+<!-- 2016.08.30. 김성수 최초생성 -->
+<!-- Copyright (c) 2016 by DDIT All right reserved -->
+
+<sqlMap namespace="message">
+
+	<typeAlias alias="str" type="java.lang.String" />
+	<typeAlias alias="int" type="java.lang.Integer" />
+	<typeAlias alias="messageVO" type="com.groupware.dto.MessageVO" />
+	<typeAlias alias="map" type="java.util.Map" />
+
+	<select id="messageList" parameterClass="str" resultClass="messageVO">
+		SELECT MESS_NUM,
+		MESS_SEND_MEM_NUM,
+		MESS_GET_MEM_NUM,
+		MESS_CONT,
+		MESS_TIME,
+		MESS_CHECK,
+		MESS_TITLE,
+		MESS_NEWMESS
+		FROM MESSAGE
+		WHERE MESS_GET_MEM_NUM = #id#
+		ORDER BY MESS_NUM DESC
+	</select>
+
+	<insert id="sendMessage" parameterClass="messageVO">
+		INSERT INTO MESSAGE(MESS_NUM, MESS_SEND_MEM_NUM, MESS_GET_MEM_NUM,
+		MESS_CONT, MESS_TIME, MESS_CHECK, MESS_TITLE, MESS_NEWMESS)
+		VALUES(MESS_SEQ.NEXTVAL,
+		#mess_send_mem_num#,#mess_get_mem_num#,#mess_cont#,sysdate,default,#mess_title#,default)
+	</insert>
+
+	<select id="detailMessage" parameterClass="str" resultClass="messageVO">
+		SELECT MESS_NUM,
+		MESS_SEND_MEM_NUM,
+		MESS_GET_MEM_NUM,
+		MESS_CONT,
+		MESS_TIME,
+		MESS_CHECK,
+		MESS_TITLE
+		FROM MESSAGE
+		WHERE MESS_NUM = #code#
+	</select>
+
+	<update id="readProcess" parameterClass="str">
+		UPDATE MESSAGE
+		SET MESS_CHECK = 'Y'
+		WHERE MESS_NUM = #code#
+	</update>
+
+	<!-- 읽지 않은 메시지 존재여부 -->
+	<select id="noneReadMsg" parameterClass="str" resultClass="int">
+		SELECT COUNT(*)
+		FROM MESSAGE
+		WHERE MESS_GET_MEM_NUM=#id# AND MESS_CHECK='N'
+	</select>
+
+	<!-- 새메시지 도착 알림 확인 -->
+	<update id="newMsgCheck" parameterClass="str">
+		UPDATE MESSAGE
+		SET MESS_NEWMESS = '0'
+		WHERE MESS_NEWMESS = '1'
+		AND MESS_GET_MEM_NUM=#id#
+	</update>
+
+	<!-- 새메시지 도착 알림 -->
+	<select id="newMsgPush" parameterClass="str" resultClass="int">
+		SELECT COUNT(*)
+		FROM MESSAGE
+		WHERE MESS_NEWMESS = '1'
+		AND MESS_GET_MEM_NUM = #id#
+	</select>
+	
+	<delete id="messageDelete" parameterClass="messageVO">
+	   DELETE 
+	   FROM MESSAGE
+	   WHERE MESS_NUM = #mess_num# AND MESS_GET_MEM_NUM = #mess_get_mem_num#
+	</delete>
+
+</sqlMap>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

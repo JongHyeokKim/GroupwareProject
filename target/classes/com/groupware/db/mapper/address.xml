@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 					주소록 관련                                      -->
+<!--	 << 개정이력(Modification Information) >>    -->
+<!--    수정일                    수정자                     수정내용                   	  -->
+<!--  =======      =======     =====================    -->
+<!-- 2016.09.01.    김태균                      최초생성                   			-->
+<!-- Copyright (c) 2016 by DDIT  All right reserved     -->
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="address">
+
+	<typeAlias alias="str" type="java.lang.String" />
+	<typeAlias alias="int" type="java.lang.Integer" />
+	<typeAlias alias="addressVO" type="com.groupware.dto.address.AddressViewVO" />
+	
+	<select id="getAddressList" resultClass="addressVO">
+		SELECT * 
+		FROM ADDRESS_VIEW
+	</select>
+
+	<select id="getKeyList" resultClass="str">
+		SELECT DEP_NM
+		FROM DEPARTMENT
+		ORDER BY DEP_NM
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:ORCL" />
+		<property name="username" value="PROJECT02" />
+		<property name="password" value="PROJECT02" />
+	</bean>
+
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation">
+			<value>classpath:com/groupware/db/sqlconfig/SqlMapConfig.xml</value>
+		</property>
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- Excel poi view 등록 -->
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+    	<property name="order" value="1"></property> <!-- 우선순위 지정.. view > jsp -->
+    </bean>
+      <bean id="myReservationListExcel" class="com.groupware.companyFacility.convert.MyReservationExcelView"/>
+    <bean id="memberListExcel" class="com.groupware.memberManagement.convert.PageExcelView" />
+    <bean id="searchListExcel" class="com.groupware.memberManagement.convert.SearchExcelView" />
+    <bean id="custromerListExcel" class="com.groupware.customerControl.convert.CustomerControlView" />
+    <bean id="allReservationListExcel" class="com.groupware.companyFacility.convert.AllReservationExcelView" />
+    <bean id="workPdf" class="com.groupware.myPage.convert.WorkPdf"/>
+    <bean id="careerPdf" class="com.groupware.myPage.convert.CareerPdf"/>
+    <bean id="memberInfoPdf" class="com.groupware.memberManagement.convert.MemberInfoPdf"/>
+    
+    <!-- validator  -->
+    
+    <beans>
+	    <bean id="BuildPdf" class="com.groupware.project.convert.BuildPdf"></bean>
+    </beans>
+    
+	
+	
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

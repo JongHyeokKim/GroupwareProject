@@ -1,0 +1,29 @@
+@import url('cascading.css');
+@import url('form.css');
+/* ************************************** 
+        
+   File   : default.css
+   Title  : daegu
+   Author : jinuk.lee
+   Date   : 2012.05.05
+   Modify : 2012.05.05
+	 
+************************************** */
+/* --reset css-- */
+*{margin:0;padding:0;}
+body,div,input,select,textarea{/* font-family:dotum; *//* font-size:12px; *//* color:#666;line-height:1.4; */}
+img{border:none;border:0px;font-size:0px;line-height:0;}
+ol,ul{/* list-style:none;line-height:1.2; */}
+textarea{word-wrap:break-word;}
+/* --element css-- */
+h1{color:#333;text-align:left;}
+h2{color:#666;text-align:left;}
+h3{color:#666;text-align:left;}
+h4{color:#333;text-align:left;}
+h5{color:#333;text-align:left;}
+h6{color:#333;text-align:left;}
+/* --a:link-- */
+a:link		{color:#737373;/* font-family:dotum;font-size:12px; */text-decoration:none;line-height:1.2;}
+a:active	{color:#737373;/* font-family:dotum;font-size:12px; */text-decoration:underline;line-height:1.2;}
+a:visited	{color:#737373;/* font-family:dotum;font-size:12px; */text-decoration:none;line-height:1.2;}
+a:hover		{color:#000;/* font-family:dotum;font-size:12px; */text-decoration:none;line-height:1.2;}

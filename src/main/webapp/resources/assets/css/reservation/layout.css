@@ -1,0 +1,148 @@
+@charset "utf-8"; 
+/* ************************************** 
+        
+   File   : layout.css
+   Title  : 
+   Author : jinuk.lee
+   Date   : 2012.01.16
+   Modify : 2012.01.16
+	 
+************************************** */
+
+
+#container .contants .guide_txt{float:left;width:223px;height:100%;min-height:525px;border:1px solid #e7e7e7;background:#f6f6f6;padding:10px 5px;margin-right:5px;}
+.guide_txt div.dayBox{width:210px;background:#616471;padding:5px;border:1px solid #42444b;text-align:center;}
+.guide_txt div.dayBox strong{color:#fff;font-size:13px;margin:0 25px;vertical-align:top;}
+.guide_txt table{width:100%;text-align:center;border-collapse:collapse;}
+
+#wrap{width:1000px;margin:0 auto;position:relative;}
+#header{float:left;width:100%;position:relative;z-index:3;}
+#header h1{width:200px;position:absolute;top:10px;left:10px;}
+#header ul.sevice_header{width:500px;position:absolute;top:5px;right:0px;text-align:right;}
+#header ul.sevice_header li{display:inline;}
+#header ul.sevice_header a{vertical-align:middle;}
+#header ul.sevice_header a:active{}
+#header ul.sevice_header a:visited{}
+#header ul.sevice_header a:hover{color:#333;}
+#header ul.sevice_header .tit strong{color:#158d83;}
+#header ul#gnb{clear:both;}
+
+#container{float:left;width:100%;position:relative;z-index:2;}
+#container .guideBox{float:left;width:100%;margin-bottom:15px;}
+#container .guideBox_tit{float:left;width:332px;height:132px;border:1px solid #cbcbcb;margin-top:5px;}
+#container .guideBox_txt{float:left;width:662px;height:130px;padding:1px;border:1px solid #cbcbcb;margin-left:-1px;margin-top:5px;}
+#container .guideBox_txt .guide_txt{height:115px;background:#eee;padding:15px 0 0 23px;}
+
+
+/* 메인 시설물현황 레이아웃형태3-세로형 */
+#container .contants{float:left;width:100%;position:relative;}
+#container .contants .cont_line{width:1000px;padding:5px 0;border-bottom:2px solid #7f7f7f;clear:both;}
+#container .contants .facilityList{float:left;width:243px;height:403px;border:1px solid #e7e7e7;padding:1px;margin-bottom:3px;position:relative;}
+#container .contants .facilityList dl{width:227px;height:387px;background:#f6f6f6;padding:8px 0px 8px 16px;}
+#container .contants .facilityList dt{float:left;width:210px;height:160px;background:#fff;}
+#container .contants .facilityList dd{float:left;width:210px;padding:3px 0;margin-bottom:2px;background:url(../images/icon_bg/facilityList_line.gif) bottom repeat-x;}
+#container .contants .facilityList dd.tit{float:left;width:210px;padding:3px 0;margin-bottom:2px;background:url(../images/icon_bg/facilityList_line.gif) bottom repeat-x;}
+#container .contants .facilityList dd.bgReset{width:195px;padding:3px 0;margin-bottom:2px;background:url(../images/icon_bg/facilityList_line.gif) 10px 0 no-repeat;}
+#container .contants .facilityList dd.btn{float:left;width:220px;position:absolute;bottom:45px;left:16px;}
+#container .contants .facilityList dd.btn1{float:left;width:220px;position:absolute;bottom:5px;left:16px;}
+#container .contants .facilityList dd strong{color:#605f5f;}
+#container .contants .facilityList dd strong.tit{color:#158d83;}
+
+#container .contants  p.list_num{clear:both;text-align:center;margin:30px 0;display:block;font-weight:bold;}
+#container .contants  p.list_num a{width:15px;text-align:center;border:1px solid #d2d2d2;padding:5px;display:inline-block;margin:5px;vertical-align:text-top;}
+#container .contants  p.list_num a:active{width:15px;text-align:center;border:1px solid #d2d2d2;padding:5px;display:inline-block;margin:5px;vertical-align:text-top;}
+#container .contants  p.list_num a:visited{width:15px;text-align:center;border:1px solid #d2d2d2;padding:5px;display:inline-block;margin:5px;vertical-align:text-top;}
+#container .contants  p.list_num a:hover{width:15px;text-align:center;border:1px solid #158d83;padding:5px;display:inline-block;color:#158d83;font-weight:bold;vertical-align:text-top;}
+#container .contants  p.list_num a.on{width:15px;text-align:center;border:2px solid #158d83;padding:4px;display:inline-block;color:#158d83;font-weight:bold;vertical-align:text-top;}
+
+/*시설물정보*/
+#container .contants .facView{float:left;width:318px;height:585px;min-height:525px;border:1px solid #e7e7e7;background:#f6f6f6;padding:10px 5px;margin:0 5px 30px 0;}
+#container .contants .facVieww{float:right;width:413px;height:100%;min-height:340px;border:1px solid #e7e7e7;background:#f6f6f6;padding:10px 5px;margin-bottom:5px;}
+.facView dl{width:300px;margin:0 auto;}
+.facView dt{float:left;width:300px;height:220px;background:#fff;position:relative;}
+.facView dt .zoom{width:36px;height:36px;position:absolute;top:7px;right:7px;}
+.facView dd{clear:left;padding:3px 0;margin-bottom:2px;background:url(../images/icon_bg/facilityList_line.gif) bottom repeat-x;}
+.facView dd.bgReset{padding:3px 0;margin-bottom:2px;background:url(../images/icon_bg/facilityList_line.gif) 10px 0 no-repeat;}
+.facView dd.thumbnail{margin-bottom:10px;}
+.facView dd.thumbnail img{margin-right:6px;}
+.facView dd.thumbnail img.reset{margin-right:-7px;}
+.facView dd strong{color:#605f5f;}
+.facView dd strong.tit{color:#158d83;}
+.facView dd.btn{margin-top:15px;}
+.facView dd.btn img{margin-right:1px;}
+.facView input{}
+.facView textarea{}
+
+.facView ol{}
+.facView li{display:inline-block;margin-top:13px;}
+.facView li p{width:295px;margin:3px 0 0 17px;}
+
+
+/*예약현황*/
+#container .contants .calendar{height:115px;text-align:center;padding-top:0px;}
+.calendar span{width:110px;height:80px;display:inline-block;padding-top:30px;color:#fff;font-size:24px;background:url(../images2/month_bg.jpg) no-repeat;}
+.calendar span p{color:#fff;font-size:14px;font-weight:bold;}
+.calendar .leftBtn,.calendar .rightBtn{margin:40px 10px;}
+
+
+#container .contants .facView_day{float:left;width:223px;height:585px;min-height:535px;border:1px solid #e7e7e7;background:#f6f6f6;padding:10px 5px 0 5px;margin:0 5px 30px 18px;}
+.facView_day div.dayBox{width:210px;background:#616471;padding:5px 5px 2px 5px;border:1px solid #42444b;text-align:center;}
+.facView_day div.dayBox strong{color:#fff;font-size:13px;}
+.facView_day div.dayBox .desc{font-size:11px;color:#fff;}
+.facView_day div.dayBox .desc strong{font-size:11px;}
+.facView_day div.dayBoxt{width:210px;background:#616471;padding:3px 5px;border-top:1px solid #42444b;border-right:1px solid #42444b;border-left:1px solid #42444b;text-align:center;color:#fff;}
+.facView_day .txt01{margin:0 10px 0 2px;}
+.facView_day .txt02{margin-right:10px;}
+
+/*예약시간*/
+#container .contants .facView_time{float:right;width:413px;height:100%;min-height:157px;border:1px solid #e7e7e7;background:#f6f6f6;padding:10px 5px;margin-bottom:9px;}
+ #container .contants .facView_time ul{width:400px;margin:7px auto 0;}
+#container .contants .facView_time ul li{float:left;width:130px;height:29px;display:inline-block;color:#fff;font-weight:bold; vertical-align:middle;text-align:center; margin:0 2px 2px 0;}
+#container .contants .facView_time ul li#on{background:url(../../img/reservation/facView_time_btn.jpg) 0 0 no-repeat;}
+#container .contants .facView_time ul li#off{background:url(../../img/reservation/facView_time_btn.jpg) 0 -29px no-repeat;}
+#container .contants .facView_time ul li#rev{background:url(../../img/reservation/facView_time_btn.jpg) 0 -58px no-repeat;}
+#container .contants .facView_time ul li#sel{background:url(../../img/reservation/facView_time_btn.jpg) 0 -87px no-repeat;}
+
+#ex{width:100px;margin:7px auto 0;}
+#ex li{float:left;width:130px;height:29px;display:inline-block;color:#fff;font-weight:bold; vertical-align:middle;text-align:center; margin:0 2px 2px 0;}
+#ex li#on{background:url(../../img/reservation/facView_time_btn.jpg) 0 0 no-repeat;}
+#ex li#off{background:url(../../img/reservation/facView_time_btn.jpg) 0 -29px no-repeat;}
+#ex li#sel{background:url(../../img/reservation/facView_time_btn.jpg) 0 -87px no-repeat;}
+#ex li a{padding:7px;display:block;color:#fff;}
+
+#container .contants .facView_time ul li a{padding:7px;display:block;color:#fff;}
+#container .contants .facView_time ul li a:hover{padding:7px;display:block;color:#fff;} 
+
+/*부가정보*/
+#container .contants .facInfo{float:left;width:938px;height:100%;min-height:200px;border:1px solid #e7e7e7;background:#f6f6f6;padding:30px;}
+#container .contants .facInfo h4{margin:10px 0 2px 0}
+#container .contants .facInfo textarea{width:99%;height:100%;min-height:100px; border:1px solid #e6e6e6;padding:5px;}
+
+/*예약내용선택입력*/
+#container .contants .facVieww .timeSel{float:left;width:370px;height:90px;border:1px solid #e7e7e7;background:#fff;padding:5px;margin-right:18px;margin-left:18px;overflow-x:hidden;overflow-y:scroll; display:inline;}
+#container .contants .facVieww .timeSel ul{width:280px;margin:7px auto 0;}
+#container .contants .facVieww .timeSel ul li{float:left;width:130px;height:29px;display:inline-block;color:#fff;font-weight:bold; vertical-align:middle;text-align:center; margin:0 2px 2px 0;}
+#container .contants .facVieww .timeSel ul li#sel{background:url(../../img/reservation/facView_time_btn.jpg) 0 -87px no-repeat;}
+#container .contants .facVieww .timeSel ul li a{padding:7px;display:block;color:#fff;}
+#container .contants .facVieww .timeSel ul li a:hover{padding:7px;display:block;color:#fff;}
+
+#container .contants .completeZone{width:350px;clear:both;margin:0 auto; display:block;}
+#container .contants .completeZone img{margin-left:10px;}
+
+/*시설물상세정보(완료)*/
+#container .contants .facComplete{float:left;width:848px;height:100%;min-height:200px;border:0px solid #e7e7e7;padding:60px 75px 30px 75px;}
+#container .contants .facComplete h4{margin-bottom:20px;}
+#container .contants .facComplete p{margin-bottom:8px;}
+#container .contants .facComplete .input{width:100%;height:190px;border-top:1px solid #dadada;border-bottom:1px solid #dadada;padding:35px 0;text-align:center;background:url(../images/icon_bg/fac_complete_visual.jpg) center 55px no-repeat;}
+#container .contants .facComplete img{margin-right:20px;}
+#container .contants .facComplete .input p{margin-bottom:10px;}
+
+
+
+
+
+
+/* 페이지 인식을 위한 부분 */
+#gnb_fac #gnb a.menu1, #gnb_reservation #gnb a.menu2, #gnb_faq #gnb a.menu3{
+	font-weight:bold;padding-top:9px;border-top:5px solid #158d83;color:#158d83;background:#fff;border-right:1px solid #758491;border-left:1px solid #758491;border-bottom:0px solid #758491;}
+

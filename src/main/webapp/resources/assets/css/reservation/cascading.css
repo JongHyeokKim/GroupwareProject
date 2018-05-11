@@ -1,0 +1,24 @@
+/* ************************************** 
+        
+   File   : cascading.css
+   Title  : cascading type1
+   Author : jinuk.lee
+   Date   : 2012.05.05
+   Modify : 2012.05.05
+	 
+************************************** */
+/* -- �������ƿ� -- */
+.skipNav{position:absolute;width:1px;height:1px;font-size:0;line-height:0;overflow:hidden;visibility:hidden;z-index:-1;}
+.blind {background: none repeat scroll 0 0 transparent;font-size:0;height:0;line-height:0;margin:0;padding:0;position:absolute;visibility:hidden;width:0;}
+/* -- �ٰ��� -- */
+.lh120 {line-height:120%;}
+.lh130 {line-height:130%;}
+.lh150 {line-height:150%;}
+.lh160 {line-height:160%;}
+.lh180 {line-height:185%;}
+.lh200 {line-height:200%;}
+.lh240 {line-height:240%;}
+
+.mr4{margin-right:4px;}
+.pt35{padding-top:35px;}
+.w224{width:224px;}

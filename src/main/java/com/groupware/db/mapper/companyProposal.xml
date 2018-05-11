@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="companyProposal">
+
+	<typeAlias alias="str" type="java.lang.String" />
+	<typeAlias alias="int" type="java.lang.Integer" />
+	<typeAlias alias="companyProposalVO" type="com.groupware.dto.CompanyProposalVO" />
+
+	<select id="companyProposalList" resultClass="companyProposalVO" >
+		SELECT
+		PROP_CODE,
+		PROP_DAY,
+		PROP_TT,
+		PROP_CONT,
+		PROP_MEM_NUM,
+		PROP_ST,
+		MEM_NM
+		FROM PROPOSAL, MEMBER WHERE PROPOSAL.PROP_MEM_NUM=MEMBER.MEM_NUM
+		ORDER BY PROP_CODE DESC 
+	</select>
+	<select id="companyProposalInformation" resultClass="companyProposalVO"
+		parameterClass="str">
+		SELECT
+		PROP_CODE,
+		PROP_DAY,
+		PROP_TT,
+		PROP_CONT,
+		PROP_MEM_NUM,
+		PROP_ST,
+		MEM_NM
+		FROM PROPOSAL, MEMBER WHERE PROP_CODE=#prop_code# AND PROPOSAL.PROP_MEM_NUM=MEMBER.MEM_NUM
+	</select>
+	<select id="companyProposalSearch" resultClass="companyProposalVO"
+		parameterClass="str">
+		SELECT * FROM PROPOSAL WHERE PROP_TT LIKE
+		'%'||#key#||'%'
+	</select>
+
+	<insert id="companyProposalWriteCom" parameterClass="companyProposalVO">
+		INSERT INTO
+		PROPOSAL(PROP_CODE, PROP_DAY, PROP_TT, PROP_CONT, PROP_MEM_NUM)
+		VALUES(PROP_SEQ.NEXTVAL, SYSDATE, #prop_tt#, #prop_cont#, #prop_mem_num#)
+	</insert>
+	<update id="companyProposalUpdateCom" parameterClass="companyProposalVO">
+		UPDATE
+		PROPOSAL SET PROP_TT=#prop_tt#, PROP_CONT=#prop_cont# WHERE
+		PROP_CODE=#prop_code#
+	</update>
+	<delete id="companyProposalDelete">
+		DELETE PROPOSAL WHERE PROP_CODE=#prop_code#
+	</delete>
+	<update id="companyProposalCheckUpdate" parameterClass="map">
+		UPDATE
+		PROPOSAL
+		SET PROP_ST=#prop_st#
+		WHERE PROP_CODE = #prop_code#
+	</update>
+
+
+
+</sqlMap>

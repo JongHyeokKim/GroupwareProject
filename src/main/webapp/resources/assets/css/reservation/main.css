@@ -1,0 +1,88 @@
+@CHARSET "UTF-8";
+* {
+	margin: 0;
+	padding: 0;
+	list-style: none; /* 들여쓰기와 디스크 없애기 */
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+a:hover {
+	font-weight: bold;
+	/* font-zie:1.1em; */
+	color: blue;
+}
+
+div#pListWrap, div#listHead{
+	min-width:420px;
+	max-width:1400px;
+	width: 85%;
+	margin: 0 auto;
+	
+	border: 1px solid black;
+	border-top: none;
+	border-right: none;
+}
+
+div#listHead{
+	border:none;
+}
+
+div#pListWrap{
+	text-align:center;
+}
+
+div#pListWrap>ul {
+	border-top: 1px solid black;
+	overflow: hidden;
+}
+
+div#pListWrap>ul>li {
+	height:25px;
+	line-height:25px;
+	float: left;
+	border-right: 1px solid black;
+	box-sizing:border-box;
+}
+
+div#pListWrap>ul>li:nth-child(1){
+	width: 10%;
+}
+
+div#pListWrap>ul>li:nth-child(2){
+	width: 10%;
+}
+div#pListWrap>ul>li:nth-child(3){
+	width: 40%;
+}
+
+div#pListWrap>ul>li:nth-child(4){
+	width: 20%;
+}
+div#pListWrap>ul>li:nth-child(5){
+	width: 10%;
+}
+div#pListWrap>ul>li:nth-child(6){
+	width: 10%;
+}
+
+
+div#listHead>button#writeBtn{
+	float: right;
+}
+div#listHead>h1{
+	height : 100px;
+	line-height : 100px;
+	text-align:center;
+	width:80%;
+	margin: 0 auto;
+	padding: 0 10px;
+}
+
+#img{
+	height : 50%;
+	width : 50%;
+}
