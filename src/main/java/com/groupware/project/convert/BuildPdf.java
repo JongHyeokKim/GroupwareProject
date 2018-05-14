@@ -110,7 +110,7 @@ public class BuildPdf extends AbstractPdfView{
 		document.add(table2);
 		
 		//이미지 삽입
-		 Image img = Image.getInstance("D://GDProject/spring_sts/workspace/GD/src/main/webapp/resources/assets/img/logo123.png");
+		 Image img = Image.getInstance(request.getSession().getServletContext().getRealPath("/resources/assets/img/logo123.png"));
 		 img.scaleToFit(100, 100);
 		 img.setAbsolutePosition(490, 10);
 		 document.add(img);

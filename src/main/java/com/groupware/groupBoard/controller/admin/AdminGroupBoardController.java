@@ -71,7 +71,7 @@ public class AdminGroupBoardController {
 		MemberVO memberVO = (MemberVO) session.getAttribute("loginUser");
 		model.addAttribute("memberVO",memberVO);
 		
-		String uploadPath = "D:/GDProject/spring_sts/workspace/GD/src/main/webapp/resources/groupBoard";
+		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/groupBoard");
 /*		String uploadPath = request.getSession().getServletContext()
 				.getRealPath("resources/memberManagementImage");
 */		if (!multipartFile.isEmpty()) {

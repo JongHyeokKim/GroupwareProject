@@ -155,14 +155,9 @@ public class AdminCompanyFacilityController {
 			, @RequestParam("file2")MultipartFile multipartFile2
 			, HttpSession session) throws IOException {
 		
-		//final String uploadPath = new File(session.getServletContext().getRealPath("/../../../../../../GD/src/main/webapp/resources/facilityImage")).getCanonicalPath();
-		//final String uploadPath1 = new File(session.getServletContext().getRealPath("/../../../../../../GD/src/main/webapp/resources/facilityImage")).getCanonicalPath();
-		//final String uploadPath2 = new File(session.getServletContext().getRealPath("/../../../../../../GD/src/main/webapp/resources/facilityImage")).getCanonicalPath();
-		//final String uploadPath = new File(session.getServletContext().getRealPath("/../../../../../../GD/src/main/webapp/resources/facilityImage")).getCanonicalPath();
 		String uploadPath = request.getSession().getServletContext().getRealPath("resources/facilityImage");
 		String uploadPath1 = request.getSession().getServletContext().getRealPath("resources/facilityImage");
 		String uploadPath2 = request.getSession().getServletContext().getRealPath("resources/facilityImage");
-		//String uploadPath = "D:/GDProject/spring_sts/workspace/GD/src/main/webapp/resources/assets/img";
 		String url = "redirect:/login";
 		
 		MemberVO memberVO = (MemberVO) session.getAttribute("loginUser");

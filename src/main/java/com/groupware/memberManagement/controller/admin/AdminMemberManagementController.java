@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.groupware.dto.MemberVO;
+import com.groupware.login.service.ILoginService;
 import com.groupware.memberManagement.service.IMemberManagementService;
 
 /**
@@ -42,6 +43,9 @@ public class AdminMemberManagementController {
 
 	@Autowired
 	private IMemberManagementService memberService;
+	
+	@Autowired
+	private ILoginService loginService;
 	
 	/*@Autowired
 	BCryptPasswordEncoder passwordEncoder;*/
@@ -122,14 +126,10 @@ public class AdminMemberManagementController {
 		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
 		if(loginUser !=null){
 			
-			//final String imagePath = new File(session.getServletContext().getRealPath("/../../../../../../GD/src/main/webapp/resources/memberManagementImage")).getCanonicalPath();
-			//final String signPath = new File(session.getServletContext().getRealPath("/../../../../../../GD/src/main/webapp/resources/memberSign")).getCanonicalPath();
 			String imagePath = request.getSession().getServletContext().getRealPath("resources/memberManagementImage");  
 			String signPath = request.getSession().getServletContext().getRealPath("resources/memberSign"); 			
 			url = "redirect:/memberManagementList";
 			
-			MemberVO memberVO = (MemberVO) session.getAttribute("loginUser");
-			model.addAttribute("memberVO",memberVO);
 			
 			File file;
 			File file1;
@@ -141,21 +141,28 @@ public class AdminMemberManagementController {
 				multipartFile1.transferTo(file1); //실제 저장이 이루어짐
 				member.setMem_img(file.getName());
 				member.setMem_stamp(file1.getName());
+				loginUser.setMem_img(file.getName());
+				loginUser.setMem_stamp(file1.getName());
 				memberService.memberUpdate(member);
 			}else if(!multipartFile.isEmpty() && !multipartFile.equals(member.getMem_img())){
 				file = new File(imagePath, "$$"+System.currentTimeMillis() + multipartFile.getOriginalFilename());
 				multipartFile.transferTo(file); //실제 저장이 이루어짐
 				member.setMem_img(file.getName());
+				loginUser.setMem_img(file.getName());
 				memberService.memberUpdate1(member);
 			}else if(!multipartFile1.isEmpty() &&!multipartFile1.equals(member.getMem_stamp())){
 				file1 = new File(signPath, "$$"+System.currentTimeMillis() + multipartFile1.getOriginalFilename());
 				multipartFile1.transferTo(file1); //실제 저장이 이루어짐
 				member.setMem_stamp(file1.getName());
-				member.setMem_img(member.getMem_img());
+				loginUser.setMem_stamp(file1.getName());
 				memberService.memberUpdate2(member);
 			}else{
 				memberService.memberUpdate3(member);
 			}
+			
+			model.addAttribute("memberVO",loginUser);
+			session.setAttribute("loginUser", loginUser);
+			
 		}
 		return url;
 	}

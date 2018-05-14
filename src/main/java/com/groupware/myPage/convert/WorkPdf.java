@@ -41,7 +41,7 @@ public class WorkPdf extends AbstractTextPdfView{
     	  MemberVO memberVO = (MemberVO) model.get("memberVO");
     	  String work = (String) model.get("work");
     	  String requestDay = (String) model.get("request");
-           String fontname = "d://GDProject/spring_sts/workspace/GD/src/main/webapp/resources/assets/fonts/GulimChe.ttf";
+           String fontname = request.getSession().getServletContext().getRealPath("/resources/assets/fonts/GulimChe.ttf");
 //           String filename = "d://filename.pdf";
 
            String replace = memberVO.getMem_jn();
@@ -57,7 +57,6 @@ public class WorkPdf extends AbstractTextPdfView{
            document = new Document(PageSize.A4,50,50,20,20); // 용지 및 여백 설정
                 
            // PdfWriter 생성
-           //PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("d:/test.pdf")); // 바로 다운로드.
            writer = PdfWriter.getInstance(document, response.getOutputStream());
            writer.setInitialLeading(12.5f);
             
@@ -73,11 +72,11 @@ public class WorkPdf extends AbstractTextPdfView{
                 
            // CSS
            CSSResolver cssResolver = new StyleAttrCSSResolver();
-           CssFile cssFile = helper.getCSS(new FileInputStream("D:/GDProject/spring_sts/workspace/GD/src/main/webapp/resources/assets/css/myPage.css"));
+           CssFile cssFile = helper.getCSS(new FileInputStream(request.getSession().getServletContext().getRealPath("/resources/assets/css/myPage.css")));
            cssResolver.addCss(cssFile);
            
-           Image img = Image.getInstance("D://GDProject/spring_sts/workspace/GD/src/main/webapp/resources/assets/img/logo123.png");
-           Image ownerImg = Image.getInstance("D://GDProject/spring_sts/workspace/GD/src/main/webapp/resources/memberSign/$$1472705940772김성수인.png");
+           Image img = Image.getInstance(request.getSession().getServletContext().getRealPath("/resources/assets/img/logo123.png"));
+           Image ownerImg = Image.getInstance(request.getSession().getServletContext().getRealPath("/resources/memberSign/$$1472705940772김성수인.png"));
            ownerImg.scaleToFit(50, 50);
            ownerImg.setAbsolutePosition(450, 110);
            document.add(ownerImg);

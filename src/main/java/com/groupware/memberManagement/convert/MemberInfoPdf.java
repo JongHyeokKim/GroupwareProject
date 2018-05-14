@@ -51,7 +51,7 @@ public class MemberInfoPdf extends AbstractTextPdfView{
        protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest request, HttpServletResponse response)
                throws Exception {
     	  MemberVO memberVO = (MemberVO) model.get("member");
-           String fontname = "d://GDProject/spring_sts/workspace/GD/src/main/webapp/resources/assets/fonts/GulimChe.ttf";
+           String fontname = request.getSession().getServletContext().getRealPath("/resources/assets/fonts/GulimChe.ttf");
            String replace = memberVO.getMem_jn();
            String joinDay = replace.replace("/", ".");
            
@@ -75,11 +75,11 @@ public class MemberInfoPdf extends AbstractTextPdfView{
                 
            // CSS
            CSSResolver cssResolver = new StyleAttrCSSResolver();
-           CssFile cssFile = helper.getCSS(new FileInputStream("D:/GDProject/spring_sts/workspace/GD/src/main/webapp/resources/assets/css/myPage.css"));
+           CssFile cssFile = helper.getCSS(new FileInputStream(request.getSession().getServletContext().getRealPath("/resources/assets/css/myPage.css")));
            cssResolver.addCss(cssFile);
            
-           Image img = Image.getInstance("D://GDProject/spring_sts/workspace/GD/src/main/webapp/resources/assets/img/logo123.png");
-           Image ownerImg = Image.getInstance("D://GDProject/spring_sts/workspace/GD/src/main/webapp/resources/memberSign/$$1472705940772김성수인.png");
+           Image img = Image.getInstance(request.getSession().getServletContext().getRealPath("resources/assets/img/logo123.png"));
+           Image ownerImg = Image.getInstance(request.getSession().getServletContext().getRealPath("resources/memberSign/$$1472705940772김성수인.png"));
            ownerImg.scaleToFit(50, 50);
            ownerImg.setAbsolutePosition(450, 110);
            document.add(ownerImg);

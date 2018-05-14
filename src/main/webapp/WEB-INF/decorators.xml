@@ -21,6 +21,4 @@
 			<pattern>/passwordUpdateForm</pattern>
 			<pattern>/passwordCheckForm</pattern>
 		</excludes>
-		
-		
 </decorators>
