@@ -9,12 +9,12 @@
 		</decorators>
 	</decorator>
 		<excludes>
+			<pattern>/index.jsp</pattern>
 			<pattern>/login</pattern>
 			<pattern>/passwordChange</pattern>
 			<pattern>/emailAddressBook</pattern>
 			<pattern>/projectAddressBook</pattern>
 			<pattern>/getProjectMembers</pattern>
-			<pattern>/index.jsp</pattern>
 			<pattern>/draftAddressBook</pattern>
 			<pattern>/detail*</pattern>
 			<pattern>/messageAddressBook</pattern>

@@ -101,8 +101,10 @@
              <!--   <li><a href="/gw/severancePay">퇴직금조회</a></li> -->
                <li><a href="/gw/certificate">증명서출력</a></li>
                <li><a href="/gw/diligenceCheck">근태정보조회</a></li>
-            </ul></li>
-
+            </ul>
+         </li>
+         
+		<li class="sideBarText"><a href="/gw/snsForm"><i class="fa fa-desktop fa-3x"></i>SNS</a></li>
 
          <li class="sideBarText"><a href="/gw/documentMain"><i class="fa fa-sitemap fa-3x"></i> 전자결재<span class="fa arrow"></span></a>
             <ul class="nav nav-second-level">

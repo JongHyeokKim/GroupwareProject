@@ -14,6 +14,8 @@
 <meta charset="UTF-8">
 <title>GD Group Ware</title>
 <!-- BOOTSTRAP STYLES-->
+ 
+ <link href="resources/sns/css/sns.css" rel="stylesheet" />
 <link href="resources/assets/css/AdminLTE.css" rel="stylesheet" />
 <link href="resources/assets/css/bootstrap.css" rel="stylesheet" />
 <link href="resources/assets/css/style.css" rel="stylesheet" />
@@ -36,6 +38,7 @@
 <!-- CUSTOM SCRIPTS -->
 <!-- 캘린더 js css -->
 <script src="resources/assets/js/custom.js"></script>
+
 <link rel='stylesheet' href='resources/assets/css/jquery-ui.min.css' />
 <link href='resources/assets/css/fullcalendar.css' rel='stylesheet' />
 <link href='resources/assets/css/fullcalendar.print.css'
@@ -53,7 +56,10 @@
 <!-- Sweet Alert -->
 <script src="treeview/js/sweetalert.min.js"></script>
 <link rel="stylesheet" type="text/css" href="treeview/css/sweetalert.css"/>
-
+<!-- sns -->
+<script src="resources/sns/js/jquery.nicescroll.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 <style type="text/css">
 * {
 	list-style-type: none;
@@ -83,32 +89,6 @@ ul#le>li {
 
 
 <body style="overflow: scroll">
-	<!-- 헤더시작 -->
-	<!-- <div id="wrapper">
-      <nav class="navbar navbar-default navbar-cls-top " role="navigation"
-         style="margin-bottom: 0">
-         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse"
-               data-target=".sidebar-collapse">
-               <span class="sr-only">Toggle navigation</span> <span
-                  class="icon-bar"></span> <span class="icon-bar"></span> <span
-                  class="icon-bar"></span>
-            </button>
-
-
-            <a class="navbar-brand" href="index.html"><img width="150px"
-               src="resources/assets/img/logo.png" /></a>
-         </div>
-         <div
-            style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;">
-            Last access : 30 May 2014 &nbsp; <a href="#"
-               class="btn btn-danger square-btn-adjust">Logout</a>
-         </div>
-
-      </nav>
-      /. NAV TOP 
-   </div> -->
-	<!-- 헤더 끝 -->
 	<div>
 		<%@ include file="header.jsp"%>
 	</div>
